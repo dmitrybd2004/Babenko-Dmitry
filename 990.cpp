@@ -2,7 +2,7 @@ class Solution {
 public:
     int find_member(int mychar, vector<vector<char>> sets){
         for(int i = 0;i<sets.size();++i){
-            for(int j = 0;j<sets[i].size();++i){
+            for(int j = 0;j<sets[i].size();++j){
                 if(sets[i][j] == mychar){
                     return i;
                 }
@@ -40,23 +40,31 @@ public:
                     create_set(sets, A, B);
                 }
                 if(idx_1 != -1 && idx_2 == -1){
-                    add_member(sets, A, idx_1);
+                    add_member(sets, B, idx_1);
                 }
                 if(idx_1 == -1 && idx_2 != -1){
-                    add_member(sets, B, idx_2);
+                    add_member(sets, A, idx_2);
                 }
-                if(idx_1 != -1 && idx_2 != -1){
+                if(idx_1 != -1 && idx_2 != -1 && idx_1 != idx_2){
                     merge_sets(sets, idx_1, idx_2);
                 }
             }
         }
-
+        // std::cout<<sets.size()<<"\n";
+        // std::cout<<sets[0].size()<<"\n";
+        // for(int i = 0;i<sets.size();++i){
+        //     for(int j = 0;j<sets[i].size();++j){
+        //         std::cout<<sets[i][j]<<" ";
+        //     }
+        //     std::cout<<"\n";
+        // }
         for(int i = 0;i<equations.size();++i){
             if(equations[i][1] == '!'){
                 char A = equations[i][0];
                 char B = equations[i][3];
                 int idx_1 = find_member(A, sets);
                 int idx_2 = find_member(B, sets);
+                std::cout<<idx_1<<" "<<idx_2<<"\n";
                 if(idx_1 == idx_2){
                     return false;
                 }
