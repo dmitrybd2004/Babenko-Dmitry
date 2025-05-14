@@ -2,49 +2,43 @@ class Solution {
 public:
     int closestMeetingNode(vector<int>& edges, int node1, int node2) {
         int sz = edges.size();
-        vector<vector<int>> adj(sz);
-        for(int i = 0;i<sz;++i){
-            if(edges[i] != -1){
-                adj[i].push_back(edges[i]);
-            }
-        }
         vector<int> dist1(sz);
         vector<int> dist2(sz);
-        queue<int> q;
-        
+
+        vector<bool> visited(sz);
+
         for(int i = 0;i<sz;++i){
             dist1[i] = -1;
         }
-        q.push(node1);
         dist1[node1] = 0;
-        while(!q.empty()){
-            int cur_node = q.front();
+        visited[node1] = true;
+        int cur_node = node1;
+
+        while(edges[cur_node] != -1 && !visited[edges[cur_node]]){
             int cur_distance = dist1[cur_node];
-            for(int i = 0;i<adj[cur_node].size();++i){
-                if(dist1[adj[cur_node][i]] == -1){
-                    dist1[adj[cur_node][i]] = cur_distance + 1;
-                    q.push(adj[cur_node][i]);
-                }
+            cur_node = edges[cur_node];
+            visited[cur_node] = true;
+            if(dist1[cur_node] == -1){
+                dist1[cur_node] = cur_distance + 1;
             }
-            q.pop();
         }
 
         for(int i = 0;i<sz;++i){
             dist2[i] = -1;
+            visited[i] = false;
         }
-        q.push(node2);
         dist2[node2] = 0;
-        while(!q.empty()){
-            int cur_node = q.front();
+        visited[node2] = true;
+        cur_node = node2;
+        while(edges[cur_node] != -1 && !visited[edges[cur_node]]){
             int cur_distance = dist2[cur_node];
-            for(int i = 0;i<adj[cur_node].size();++i){
-                if(dist2[adj[cur_node][i]] == -1){
-                    dist2[adj[cur_node][i]] = cur_distance + 1;
-                    q.push(adj[cur_node][i]);
-                }
+            cur_node = edges[cur_node];
+            visited[cur_node] = true;
+            if(dist2[cur_node] == -1){
+                dist2[cur_node] = cur_distance + 1;
             }
-            q.pop();
         }
+
         int mindist = 2*sz;
         int ans = -1;
         for(int i = 0;i<sz;++i){
