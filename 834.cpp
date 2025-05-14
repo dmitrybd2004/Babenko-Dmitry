@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int calc_size(std::vector<int>& num_of_nodes, vector<vector<int>> adj, int node, int parent_node){
+    int calc_size(std::vector<int>& num_of_nodes, const vector<vector<int>>& adj, int node, int parent_node){
         if(adj[node].size() == 1 && node!=0){
             num_of_nodes[node] = 1;
             return 1;
