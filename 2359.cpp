@@ -22,7 +22,6 @@ public:
             int cur_distance = dist1[cur_node];
             for(int i = 0;i<adj[cur_node].size();++i){
                 if(dist1[adj[cur_node][i]] == -1){
-                    // std::cout<<"found to"<< adj[cur_node][i]<<"\n";
                     dist1[adj[cur_node][i]] = cur_distance + 1;
                     q.push(adj[cur_node][i]);
                 }
@@ -46,20 +45,12 @@ public:
             }
             q.pop();
         }
-        for(int i = 0;i<sz;++i){
-            std::cout<<dist1[i]<<" ";
-        }
-        std::cout<<"\n";
-        for(int i = 0;i<sz;++i){
-            std::cout<<dist2[i]<<" ";
-        }
-        std::cout<<"\n";
         int mindist = 2*sz;
         int ans = -1;
         for(int i = 0;i<sz;++i){
-            if(mindist>dist1[i] + dist2[i] && dist1[i]!=-1 && dist2[i]!=-1){
+            if(mindist>max(dist1[i], dist2[i]) && dist1[i]!=-1 && dist2[i]!=-1){
                 ans = i;
-                mindist = dist1[i] + dist2[i];
+                mindist = max(dist1[i], dist2[i]);
             }
         }
         return ans;
