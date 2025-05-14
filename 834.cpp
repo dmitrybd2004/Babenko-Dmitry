@@ -26,10 +26,47 @@ public:
         }
 
         calc_size(num_of_nodes, adj, 0, -1);
-        for(int i = 0;i<num_of_nodes.size();++i){
-            std::cout<<i<<" "<<num_of_nodes[i]<<"\n";
+        vector<int> dist(n);
+        queue<int> q;
+        q.push(0);
+        for(int i = 0;i<n;++i){
+            dist[i] = -1;
         }
-        
-        return {0};
+        dist[0] = 0;
+        while(!q.empty()){
+            int cur_node = q.front();
+            int cur_distance = dist[cur_node];
+            for(int i = 0;i<adj[cur_node].size();++i){
+                if(dist[adj[cur_node][i]] == -1){
+                    dist[adj[cur_node][i]] = cur_distance + 1;
+                    q.push(adj[cur_node][i]);
+                }
+            }
+            q.pop();
+        }
+        int sum = 0;
+        for(int i = 0;i<n;++i){
+            sum+=dist[i];
+        }
+
+        std::vector<int> ans(n);
+        for(int i = 0;i<n;++i){
+            ans[i] = -1;
+        }
+        ans[0] = sum;
+        q.push(0);
+        while(!q.empty()){
+            int cur_node = q.front();
+            int cur_sum = ans[cur_node];
+            for(int i = 0;i<adj[cur_node].size();++i){
+                if(ans[adj[cur_node][i]] == -1){
+                    ans[adj[cur_node][i]] = cur_sum - 2 * num_of_nodes[adj[cur_node][i]] + n;
+                    q.push(adj[cur_node][i]);
+                }
+            }
+            q.pop();
+        }
+
+        return ans;
     }
 };
